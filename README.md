@@ -18,9 +18,9 @@
     <br />
     <a href="https://www.figma.com/file/YiZBwFtvAjjkBFTv9RSTTZ/Online-Courses-Website?type=design&node-id=0%3A1&mode=design&t=AB9ZtfB7Z3iAI8jL-1">Figma Design</a>
     ·
-    <a href="https://github.com/Abdelrahman-Yasser-1/Online-Courses-Website/issues">Report Bug</a>
+    <a href="https://github.com/Abdelrahman-Yasser-1/Online-Courses-Website-with-Dashboard/issues">Report Bug</a>
     ·
-    <a href="https://github.com/Abdelrahman-Yasser-1/Online-Courses-Website/issues">Request Feature</a>
+    <a href="https://github.com/Abdelrahman-Yasser-1/Online-Courses-Website-with-Dashboard/issues">Request Feature</a>
   </p>
 </div>
 
