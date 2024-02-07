@@ -1,0 +1,13 @@
+.navbar-toggler:focus,
+.navbar-toggler:active,
+.navbar-toggler-icon:focus,
+.navbar-toggler {
+  outline: none;
+  box-shadow: none;
+  border: none;
+  padding: 0px;
+}
+
+.active {
+  background-color: var(--white-95) !important;
+}

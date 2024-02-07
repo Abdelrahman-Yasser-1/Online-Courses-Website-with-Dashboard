@@ -1,0 +1,22 @@
+.course_image {
+  width: 100%;
+  height: 380px;
+  object-fit: cover;
+}
+
+.course-card {
+  min-height: 685px;
+}
+
+@media only screen and (max-width: 767px) {
+  .course-card {
+    min-height: auto;
+    /* border-color: white; */
+  }
+
+  .course_image {
+    width: auto;
+    height: 165px;
+    object-fit: cover;
+  }
+}

@@ -1,0 +1,13 @@
+section.brands > div {
+    position: relative;
+  }
+  
+  .brands div img::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    right: -7px;
+    width: 10px;
+    background-color: black;
+  }

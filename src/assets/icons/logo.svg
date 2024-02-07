@@ -1,0 +1,22 @@
+<svg width="40" height="41" viewBox="0 0 40 41" fill="none" xmlns="http://www.w3.org/2000/svg">
+<rect width="40" height="41" fill="#F5F5F5"/>
+<g id="Home Page - Desktop">
+<rect width="1920" height="10350" transform="translate(-169 -102)" fill="#F7F7F8"/>
+<g id="Header">
+<g id="Navbar">
+<path d="M1721 71H-139V73H1721V71Z" fill="#F1F1F3" mask="url(#path-2-inside-1_0_1)"/>
+<g id="Container">
+<g id="Logo">
+<rect x="-7" y="-6.5" width="54" height="54" rx="8" fill="#FF9500"/>
+<g id="shape-17">
+<g id="shape-17_2">
+<path d="M4.16699 37.1667L15.0003 26.3334H25.8337V15.5L36.667 26.3334L25.8337 37.1667H4.16699Z" fill="white"/>
+<path d="M4.16699 15.5L15.0003 26.3334V15.5H25.8337L36.667 4.66669H15.0003L4.16699 15.5Z" fill="white"/>
+</g>
+</g>
+</g>
+</g>
+</g>
+</g>
+</g>
+</svg>

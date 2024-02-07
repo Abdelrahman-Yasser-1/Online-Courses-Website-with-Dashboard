@@ -1,0 +1,21 @@
+.hero span {
+  color: var(--orange-color);
+}
+
+.hero_title {
+  font-size: 48px;
+  font-weight: 600;
+}
+
+.hero > div > div > span {
+  background-color: var(--light-orange-color);
+}
+
+/* ************************** Mobile Screen ************************** */
+
+@media only screen and (max-width: 767px) {
+  .hero_title {
+    font-size: 16px;
+    font-weight: 600;
+  }
+}

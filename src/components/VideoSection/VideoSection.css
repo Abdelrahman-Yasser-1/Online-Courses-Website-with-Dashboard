@@ -1,0 +1,11 @@
+.video {
+  max-height: 715px;
+  object-fit: cover;
+}
+
+@media only screen and (max-width: 767px) {
+  .video {
+    max-height: 193px;
+    object-fit: cover;
+  }
+}

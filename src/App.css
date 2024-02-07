@@ -1,38 +1,87 @@
-.App {
-  text-align: center;
-}
-
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
+/* Start General Style */
+/* Backgrounds and Borders and Text-Color*/
+.main-button {
+  background-color: var(--orange-color);
+  border-color: var(--orange-color);
   color: white;
 }
 
-.App-link {
-  color: #61dafb;
+.main-button:hover {
+  background-color: var(--bg-color);
+  color: var(--orange-color);
+  border-color: var(--orange-color);
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.border-orange-90 {
+  border: 1px solid var(--orange-90);
+}
+
+.border-white-95 {
+  border: 1px solid var(--white-95);
+}
+
+.bg-orange-97 {
+  background-color: var(--orange-97);
+}
+
+.bg-orange-50 {
+  background-color: var(--orange-50);
+}
+
+.bg-orange-95,
+.bg-orange-95:hover {
+  background-color: var(--orange-95);
+}
+
+.bg-white-95,
+.bg-white-95:hover {
+  background-color: var(--white-95);
+}
+
+.bg-white-99,
+.bg-white-99:hover {
+  background-color: var(--white-99);
+}
+
+.bg-white-97,
+.bg-white-97:hover {
+  background-color: var(--white-97);
+}
+
+.text-grey-40 {
+  color: var(--grey-40);
+}
+
+.text-grey-35 {
+  color: var(--grey-35);
+}
+
+.text-grey-30 {
+  color: var(--grey-30);
+}
+
+.text-grey-20 {
+  color: var(--grey-20);
+}
+
+.text-grey-15 {
+  color: var(--grey-15);
+}
+
+.text-orange-50 {
+  color: var(--orange-50);
+}
+
+hr {
+  color: var(--white-95);
+}
+
+.card {
+  border-color: white;
+}
+
+/* End General Style */
+
+.App {
+  background-color: var(--white-97) !important;
 }

@@ -1,0 +1,27 @@
+.custom-file-upload {
+  height: 200px;
+  cursor: pointer;
+  border: 2px dashed #cacaca;
+  background-color: rgba(255, 255, 255, 1);
+}
+
+.course-image {
+  max-height: 200px;
+  object-fit: cover;
+  width: 100%;
+}
+
+input,
+select {
+  box-shadow: none !important;
+  outline: none !important;
+}
+
+.pointer-cursor {
+  cursor: pointer;
+}
+
+table > thead > tr > th {
+  background-color: var(--orange-50) !important;
+  color: white !important;
+}

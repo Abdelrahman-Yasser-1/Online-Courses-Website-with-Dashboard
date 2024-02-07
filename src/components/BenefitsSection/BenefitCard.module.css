@@ -1,0 +1,8 @@
+.my-card {
+  min-height: 380px;
+}
+
+.card-title {
+  font-size: 80px;
+  font-weight: 700;
+}

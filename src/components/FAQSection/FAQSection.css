@@ -1,0 +1,29 @@
+.faq:not(:last-child) {
+  margin-bottom: 1.5rem;
+}
+
+.faqs .accordion-button {
+  background-color: white;
+}
+
+.faqs .accordion-button:not(.collapsed)::after {
+  background-image: url("../../assets/icons/close.svg");
+  background-size: 1.5rem;
+  background-color: var(--orange-95);
+  border-radius: 0.25rem;
+  padding: 15px;
+  background-position: center;
+}
+
+.faqs .accordion-button::after {
+  background-image: url("../../assets/icons/plus.svg");
+  background-size: 1.5rem;
+  background-color: var(--orange-95);
+  border-radius: 0.25rem;
+  padding: 15px;
+  background-position: center;
+}
+
+.faqs .accordion-button {
+  box-shadow: none;
+}
