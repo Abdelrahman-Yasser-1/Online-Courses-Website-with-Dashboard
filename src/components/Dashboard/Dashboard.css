@@ -25,3 +25,10 @@ table > thead > tr > th {
   background-color: var(--orange-50) !important;
   color: white !important;
 }
+
+.loading-content {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

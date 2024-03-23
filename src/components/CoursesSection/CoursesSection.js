@@ -4,25 +4,11 @@ import { Row, Col } from "reactstrap";
 import CourseCard from "./CourseCard";
 
 import SectionHeader from "../UI/SectionHeader";
-
-import { useContext, useEffect, useState } from "react";
-import CoursesContext from "../store/courses-context";
-
-import { getCourses } from "../../services/apiService";
+import { useGetCourses } from "../../hooks/useGetCourses";
+import BookLoader from "../BookLoader/BookLoader";
 
 const CoursesSection = () => {
-  const coursesCtx = useContext(CoursesContext);
-  const [courses, setCourses] = useState([]);
-
-  useEffect(() => {
-    getCourses()
-      .then((data) => {
-        setCourses(data);
-      })
-      .catch((error) => {
-        console.error("Error fetching courses:", error);
-      });
-  }, [coursesCtx.isChanged]);
+  const { data: courses, isLoading, isError, isFetching } = useGetCourses();
 
   const title = "Our Courses";
   const description =
@@ -31,15 +17,21 @@ const CoursesSection = () => {
   return (
     <section id="courses">
       <SectionHeader title={title} description={description} />
-      <section className="courses container my-5">
-        <Row className="row-cols-1 row-cols-lg-2 row-cols-md-1 g-3 g-lg-3">
-          {courses.map((course, index) => (
-            <Col key={index} sm="6">
-              <CourseCard {...course} />
-            </Col>
-          ))}
-        </Row>
-      </section>
+      {isLoading || isFetching ? (
+        <div className="courses text-center my-5 container">
+          <BookLoader />
+        </div>
+      ) : (
+        <section className="courses container my-5">
+          <Row className="row-cols-1 row-cols-lg-2 row-cols-md-1 g-3 g-lg-3">
+            {courses.data.map((course, index) => (
+              <Col key={index} sm="6">
+                <CourseCard {...course} />
+              </Col>
+            ))}
+          </Row>
+        </section>
+      )}
     </section>
   );
 };

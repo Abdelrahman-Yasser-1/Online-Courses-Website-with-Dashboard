@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useState } from "react";
 import {
   Button,
   Modal,
@@ -12,40 +12,25 @@ import editIcon from "../../assets/icons/edit-icon.svg";
 import deleteIcon from "../../assets/icons/delete-icon.svg";
 
 import CourseModal from "./CourseModal";
-import CoursesContext from "../store/courses-context";
 
-// services
-import { deleteCourse } from "../../services/apiService";
 import { errorNotify, successNotify } from "../../services/toastNotify";
+import { useDeleteCourses } from "../../hooks/useDeleteCourse";
 
 const TableRow = (props) => {
-  const coursesCtx = useContext(CoursesContext);
-
   const [deleteModal, setDeleteModal] = useState(false);
-
   const toggleDeleteModal = () => setDeleteModal(!deleteModal);
 
   const [updateModal, setUpdateModal] = useState(false);
-
   const toggleUpdateModal = () => setUpdateModal(!updateModal);
 
-  const [isLoading, setIsLoading] = useState(false);
+  const { mutate: deleteCourse, isPending: isLoading } = useDeleteCourses(
+    successNotify,
+    errorNotify
+  );
 
   const deleteHandler = () => {
-    setIsLoading(true);
-    deleteCourse(props.id)
-      .then(function () {
-        coursesCtx.change();
-        successNotify("Course deleted successfully");
-      })
-      .catch(function (error) {
-        console.log(error);
-        errorNotify();
-      })
-      .finally(function () {
-        setIsLoading(false);
-        toggleDeleteModal();
-      });
+    deleteCourse(props.id);
+    toggleDeleteModal();
   };
 
   const course = { ...props };

@@ -10,68 +10,79 @@ import {
 } from "reactstrap";
 
 import ImageUploader from "./ImageUploader";
-import { useContext, useState } from "react";
+import { useState } from "react";
 
-import CoursesContext from "../store/courses-context";
-
-// services
-import { addCourses, updateCourse } from "../../services/apiService";
 import { errorNotify, successNotify } from "../../services/toastNotify";
 
-// Upload image to Firebase
 import { imageDB } from "../../services/firebase";
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import { v4 } from "uuid";
+import { useAddCourse } from "../../hooks/useAddCourse";
+import { useUpdateCourse } from "../../hooks/useUpdateCourse";
 
 const CourseModal = (props) => {
-  const coursesCtx = useContext(CoursesContext);
+  const course = { ...props.course };
 
   const [selectedImage, setSelectedImage] = useState(null);
-  const [isLoading, setIsLoading] = useState(false);
 
   const handleImageSelect = (image) => {
     setSelectedImage(image);
   };
 
-  const submitHandler = async (event) => {
+  const { mutate: addCourse, isPending: isLoading } = useAddCourse(
+    successNotify,
+    errorNotify
+  );
+  const addCourseHandler = (courseData) => {
+    addCourse(courseData);
+    props.toggle();
+  };
+
+  const { mutate: updateCourse, isPending: isUpdating } = useUpdateCourse(
+    successNotify,
+    errorNotify
+  );
+  const updateCourseHandler = (id, courseData) => {
+    updateCourse({ id, ...courseData });
+    props.toggle();
+  };
+
+  const [imageUploadingToFirebase, setImageUploadingToFirebase] =
+    useState(false);
+  const submitHandler = (event) => {
     event.preventDefault();
+
+    const formData = new FormData(event.target);
     if (selectedImage) {
-      try {
-        setIsLoading(true);
-        const formData = new FormData(event.target);
-        // start upload image
-        const imageRef = ref(imageDB, `coursesImages/${v4()}`);
-        uploadBytes(imageRef, selectedImage)
-          .then((snapshot) => {
-            getDownloadURL(snapshot.ref)
-              .then((url) => {
-                const courseData = {
-                  title: formData.get("title"),
-                  instructor: formData.get("instructor"),
-                  duration: formData.get("duration"),
-                  level: formData.get("courseLevel"),
-                  description: formData.get("description"),
-                  image: url,
-                };
-                if (props.isAdd) addCourseHandler(courseData);
-                else updateCourseHandler(course.id, courseData);
-              })
-              .catch((error) => {
-                console.log(error.message);
-              });
-          })
-          .catch((error) => {
-            console.log(error.message);
-          });
-      } catch (error) {
-        console.error("Error:", error);
-        errorNotify("Can't  upload image! Please try again later.");
-      } finally {
-        // setIsLoading(false);
-      }
+      const imageRef = ref(imageDB, `coursesImages/${v4()}`);
+      setImageUploadingToFirebase(true);
+      uploadBytes(imageRef, selectedImage)
+        .then((snapshot) => {
+          getDownloadURL(snapshot.ref)
+            .then((url) => {
+              setImageUploadingToFirebase(false);
+              const courseData = {
+                title: formData.get("title"),
+                instructor: formData.get("instructor"),
+                duration: formData.get("duration"),
+                level: formData.get("courseLevel"),
+                description: formData.get("description"),
+                image: url,
+              };
+              if (props.isAdd) addCourseHandler(courseData);
+              else updateCourseHandler(course.id, courseData);
+            })
+            .catch((error) => {
+              errorNotify(error.message);
+            });
+        })
+        .catch((error) => {
+          errorNotify(error.message);
+          errorNotify("Can't  upload image! Please try again later.");
+        });
     } else {
       if (!props.isAdd) {
-        const formData = new FormData(event.target);
+        // const formData = new FormData(event.target);
         const courseData = {
           title: formData.get("title"),
           instructor: formData.get("instructor"),
@@ -88,38 +99,7 @@ const CourseModal = (props) => {
     }
   };
 
-  const addCourseHandler = async (courseData) => {
-    try {
-      setIsLoading(true);
-      await addCourses(courseData);
-      successNotify("Course added successfully");
-      coursesCtx.change();
-      props.toggle();
-    } catch (error) {
-      errorNotify("Can't upload course! Please try again later.");
-      console.error("Error adding course:", error);
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
-  const updateCourseHandler = async (id, courseData) => {
-    try {
-      setIsLoading(true);
-      await updateCourse(id, courseData);
-      successNotify("Course updated successfully");
-      coursesCtx.change();
-      props.toggle();
-    } catch (error) {
-      errorNotify("Can't upload Course! Please try again later.");
-      console.error("Error editing course:", error);
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
-  const course = { ...props.course };
-
+  const disableOrLoading = isLoading || isUpdating || imageUploadingToFirebase;
   return (
     <Modal isOpen={props.modal} toggle={props.toggle}>
       <ModalHeader toggle={props.toggle}>
@@ -131,7 +111,7 @@ const CourseModal = (props) => {
             onImageSelect={handleImageSelect}
             isAdd={props.isAdd}
             img={course.image}
-            isLoading={isLoading}
+            isLoading={disableOrLoading}
           />
           <FormGroup floating>
             <Input
@@ -141,7 +121,7 @@ const CourseModal = (props) => {
               type="text"
               defaultValue={!props.isAdd ? course.title : ""}
               required
-              disabled={isLoading}
+              disabled={disableOrLoading}
             />
             <Label for="courseTitle">Course Title</Label>
           </FormGroup>
@@ -153,7 +133,7 @@ const CourseModal = (props) => {
               type="text"
               defaultValue={!props.isAdd ? course.instructor : ""}
               required
-              disabled={isLoading}
+              disabled={disableOrLoading}
             />
             <Label for="courseInstructor">Course Instructor</Label>
           </FormGroup>
@@ -165,7 +145,7 @@ const CourseModal = (props) => {
               type="text"
               defaultValue={!props.isAdd ? course.duration : ""}
               required
-              disabled={isLoading}
+              disabled={disableOrLoading}
             />
             <Label for="courseDuration">Course Duration</Label>
           </FormGroup>
@@ -175,7 +155,7 @@ const CourseModal = (props) => {
               name="courseLevel"
               type="select"
               defaultValue={course.level}
-              disabled={isLoading}
+              disabled={disableOrLoading}
             >
               <option>Beginner</option>
               <option>Intermediate</option>
@@ -191,16 +171,16 @@ const CourseModal = (props) => {
               type="text"
               defaultValue={!props.isAdd ? course.description : ""}
               required
-              disabled={isLoading}
+              disabled={disableOrLoading}
             />
             <Label for="courseDescription">Course Description</Label>
           </FormGroup>
           <button
             type="submit"
             className="btn main-button w-100"
-            disabled={isLoading}
+            disabled={disableOrLoading}
           >
-            {isLoading ? (
+            {disableOrLoading ? (
               <Spinner color="dark" size="sm">
                 Loading...
               </Spinner>
